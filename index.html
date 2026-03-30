@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سيرتي الذاتية الاحترافية</title>
     <link rel="stylesheet" href="https://cloudflare.com">
+
     <style>
        :root {
     --main-bg: #ffffff;
@@ -103,6 +104,35 @@ nav ul li a:hover { color: var(--accent-color); }
         border-radius: 15px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
+	@media (max-width: 768px) {
+    
+    /* جعل الحاوية الرئيسية مرنة */
+    .container {
+        width: 95%; /* بدل العرض الثابت */
+        flex-direction: column; /* ترتيب العناصر تحت بعضها */
+        padding: 10px;
+    }
+
+    /* ضبط الصور لتناسب الشاشة */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* تكبير الأزرار لتسهيل اللمس */
+    .btn, .social-links a {
+        padding: 12px 20px;
+        display: block;
+        margin: 10px auto;
+        text-align: center;
+    }
+
+    /* ضبط الخلفية الزجاجية لتغطي الشاشة بالكامل */
+    .glass-card {
+        margin: 10px 0;
+        width: 100% !important;
+    }
+}
     </style>
 </head>
 <body>
