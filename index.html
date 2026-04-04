@@ -93,12 +93,10 @@ nav ul li a:hover { color: var(--accent-color); }
     transition: 0.3s;
 }
 
-.item:hover .project-info {
-    background: linear-gradient(to top, rgba(0, 242, 255, 0.4), transparent); /* يتغير لون الظل للأزرق عند التمرير */
-}
-.fb { background: #1877f2; }
-.tw { background: #1da1f2; }
-.wa { background: #25d366; }
+.share-buttons { display: flex; gap: 10px; justify-content: center; margin: 20px; }
+  .share-btn { padding: 10px 20px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
+  .fb { background: #1877f2; } .tw { background: #000; } .wa { background: #25d366; }
+  .share-btn:hover { opacity: 0.8; transform: scale(1.05); }
 .hero-image img {
         max-width: 100%;
         border-radius: 15px;
@@ -181,6 +179,7 @@ nav ul li a:hover { color: var(--accent-color); }
             <img src="https://plus.unsplash.com/premium_photo-1683120963435-6f9355d4a776?q=80&w=663&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="500" height="400" alt="برمجة وتطوير">
         </div>
     </header>
+	<section id="work" class="portfolio">
 	<div class="grid">
     <!-- المشروع الأول: صفحة الهبوط -->
 
