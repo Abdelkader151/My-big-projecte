@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>باقات الاشتراك الزجاجية</title>
+    <style>
+        /* كود التنسيق السحري */
+        body {
+            /* خلفية ملونة قوية لكي يظهر تأثير الزجاج الشفاف */
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        /* تنسيق الزجاج (Glassmorphism) */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px); /* هذا ما يجعلها كالزجاج */
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            width: 280px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: 0.4s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        .price { font-size: 3rem; font-weight: bold; margin: 20px 0; }
+        
+        .btn-select {
+            background: white;
+            color: #1a2a6c;
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-select:hover {
+            background: #00f2ff;
+            color: #1a1a1a;
+            box-shadow: 0 0 15px #00f2ff;
+        }
+
+        /* تنسيق مفتاح التبديل */
+        .toggle-container { margin-bottom: 40px; font-weight: bold; }
+		.icon-top {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+/* تنسيق قائمة المميزات */
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+    text-align: right; /* لتناسب اللغة العربية */
+}
+
+.features-list li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.features-list li i.fa-check { color: #25d366; } /* علامة صح خضراء */
+.features-list li i.fa-times { color: #ff4b2b; } /* علامة خطأ حمراء */
+
+.features-list li.disabled {
+    opacity: 0.5;
+    text-decoration: line-through; /* شطب المميزات غير المتاحة */
+}
+
+/* تمييز الباقة الاحترافية */
+.popular-badge {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: #00f2ff;
+    color: #1a1a1a;
+    padding: 5px 40px;
+    transform: rotate(45deg); /* شريط مائل احترافي */
+    font-size: 0.7rem;
+    font-weight: bold;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.highlighted {
+    background: #00f2ff !important;
+    color: #1a1a1a !important;
+}
+.pricing-toggle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 25px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255,255,255,0.3);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #00f2ff; }
+input:checked + .slider:before { transform: translateX(24px); }
+
+.active { color: #00f2ff; font-weight: bold; }
+.glass-nav {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+.nav-links a { text-decoration: none; color: white; opacity: 0.8; transition: 0.3s; font-size: 0.9rem; }
+.nav-links a:hover { opacity: 1; color: #00f2ff; }
+
+.login-btn {
+    background: #00f2ff;
+    color: #1a1a1a !important;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* تنسيق قسم المقالات */
+.blog-section { padding: 80px 10%; width: 100%; }
+.section-title { text-align: center; color: white; margin-bottom: 40px; font-size: 2rem; }
+
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+.blog-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+.blog-card:hover { transform: translateY(-10px); border-color: #00f2ff; }
+
+.blog-img { height: 200px; background-size: cover; background-position: center; }
+
+.blog-content { padding: 20px; text-align: right; }
+.category { color: #00f2ff; font-size: 0.8rem; font-weight: bold; }
+.blog-content h3 { margin: 10px 0; font-size: 1.2rem; line-height: 1.4; }
+.read-more { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
+.main-footer {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 10% 20px;
+    margin-top: 100px;
+    color: white;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section h3 {
+    color: #00f2ff;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer-section p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: white;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    opacity: 1;
+    color: #00f2ff;
+    padding-right: 10px; /* حركة بسيطة عند التمرير */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 1.3rem;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    opacity: 1;
+    color: #00f2ff;
+    transform: translateY(-5px);
+}
+.hero-image img {
+        max-width: 100%;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    </style>
+</head>
+<body>
+<nav class="glass-nav">
+    <div class="nav-logo"> AOUADJ-AK</div>
+    <ul class="nav-links">
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="#features">المميزات</a></li>
+        <li><a href="#blog">المدونة</a></li>
+        <li><a href="login.html" class="login-btn">دخول</a></li>
+    </ul>
+</nav> 
+<header class="main-header">
+    <div class="logo-container">
+        <i class="fas fa-brain neon-icon"></i>
+		 <div class="card">
+        <i class="fas fa-user-astronaut icon-top"></i>
+        <h1> AOUADJ-AK</h1>
+    </div><br>
+  <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="500" height="400" alt="برمجة وتطوير">
+        </div>
+     <p style="font-family: 'Pacifico', cursive;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); /* وهج ذهبي */
+    font-weight: 600;           /* وزن عادي مريح للقراءة */
+    font-size: 1.5rem;
+    color: #e2e8f0  ;
+    line-height: 1.8;">مستقبل التخزين الذكي والحوسبة السحابية</p>
+</header>
+  <div class="pricing-toggle">
+    <span id="monthly-label" class="active">شهري</span>
+    <label class="switch">
+        <input type="checkbox" id="billing-toggle">
+        <span class="slider round"></span>
+    </label>
+    <span id="yearly-label">سنوي <small>(خصم 20%)</small></span>
+</div>
+
+<div class="container">
+    <!-- الباقة الأولى: للمبدعين الأفراد -->
+    <div class="card">
+        <i class="fas fa-user-astronaut icon-top"></i>
+        <h2>خطة المبدع (Starter)</h2>
+        <div class="price">$<span id="basic-price">12</span><small id="period">/شهرياً</small></div>
+        <ul class="features-list">
+            <li><i class="fas fa-cloud"></i> 100GB تخزين سحابي</li>
+            <li><i class="fas fa-robot"></i> وصول محدود لـ AI Chat</li>
+            <li><i class="fas fa-sync"></i> مزامنة على جهازين</li>
+            <li class="disabled"><i class="fas fa-shield-alt"></i> تشفير عسكري (AES-256)</li>
+        </ul>
+        <a href="#" class="btn-select">ابدأ التجربة مجاناً</a>
+    </div>
+
+    <!-- الباقة الثانية: للمحترفين والشركات -->
+    <div class="card popular">
+        <div class="popular-badge">الأكثر اختياراً</div>
+        <i class="fas fa-microchip icon-top" style="color: #00f2ff;"></i>
+        <h2>خطة الأعمال (Pro)</h2>
+        <div class="price">$<span id="pro-price">49</span><small id="period-pro">/شهرياً</small></div>
+        <ul class="features-list">
+            <li><i class="fas fa-infinity"></i> تخزين غير محدود</li>
+            <li><i class="fas fa-brain"></i> معالجة بيانات بالذكاء الاصطناعي</li>
+            <li><i class="fas fa-headset"></i> دعم فني مخصص 24/7</li>
+            <li><i class="fas fa-shield-check"></i> حماية متقدمة وتشفير كلي</li>
+        </ul>
+        <a href="#" class="btn-select highlighted">امتلك القوة الآن</a>
+    </div>
+</div>
+</div>
+<section id="blog" class="blog-section">
+    <h2 class="section-title">آخر الأخبار التقنية</h2>
+    <div class="blog-grid">
+        <!-- مقال 1 -->
+        <article class="blog-card">
+            <div class="blog-img" style="background-image: url('https://unsplash.com')"></div>
+            <div class="blog-content">
+                <span class="category">ذكاء اصطناعي</span>
+                <h3>كيف يغير الذكاء الاصطناعي مستقبل التخزين؟</h3>
+                <a href="article.html" class="read-more">اقرأ المزيد ←</a>
+            </div>
+        </article>
+        <!-- مقال 2 -->
+        <article class="blog-card">
+            <div class="blog-img" style="background-image: url('https://unsplash.com')"></div>
+            <div class="blog-content">
+                <span class="category">أمن سيبراني</span>
+                <h3>أهمية التشفير العسكري في حماية بياناتك.</h3>
+                <a href="security.html" class="read-more">اقرأ المزيد ←</a>
+            </div>
+        </article>
+    </div>
+</section>
+<script>
+    const toggle = document.getElementById('billing-toggle');
+    const basicPrice = document.getElementById('basic-price');
+    const proPrice = document.getElementById('pro-price');
+
+    toggle.addEventListener('change', () => {
+        if (toggle.checked) {
+            // الأسعار السنوية (مثلاً 9$ تصبح 90$ سنوياً)
+            basicPrice.innerText = "90";
+            proPrice.innerText = "250";
+            document.querySelectorAll('#period, #period-pro').forEach(el => el.innerText = "/سنوياً");
+        } else {
+            // العودة للأسعار الشهرية
+            basicPrice.innerText = "9";
+            proPrice.innerText = "29";
+            document.querySelectorAll('#period, #period-pro').forEach(el => el.innerText = "/شهرياً");
+        }
+    });
+</script>
+Utilisez le code avec préc
+<footer class="main-footer">
+    <div class="footer-container">
+        <!-- القسم الأول: نبذة عن المشروع -->
+        <div class="footer-section about">
+            <h2 class="footer-logo">AOUADJ <span>AK</span></h2>
+            <p>منصة رائدة في تقديم حلول التخزين الذكي والذكاء الاصطناعي، نهدف لتأمين مستقبلك الرقمي بأحدث التقنيات العالمية.</p>
+        </div>
+
+        <!-- القسم الثاني: روابط سريعة -->
+        <div class="footer-section links">
+            <h3>روابط سريعة</h3>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#features">المميزات</a></li>
+                <li><a href="#blog">المدونة التقنية</a></li>
+                <li><a href="login.html">دخول المشتركين</a></li>
+            </ul>
+        </div>
+
+        <!-- القسم الثالث: تواصل معنا (معلومات نموذجية لقوانين خمسات) -->
+        <div class="footer-section contact-info">
+            <h3>تواصل معنا</h3>
+            <p><i class="fas fa-map-marker-alt"></i> الجزائر، العاصمة (عرض تجريبي)</p>
+            <p><i class="fas fa-envelope"></i> support@aouadj-tech.com</p>
+            <p><i class="fas fa-phone"></i> +213 00 00 00 00</p>
+        </div>
+    </div>
+
+    <!-- الجزء السفلي: الحقوق والسوشيال ميديا -->
+    <div class="footer-bottom">
+        <p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير <strong>عبد القادر عواج</strong></p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

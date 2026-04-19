@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم البرمجة والذكاء الاصطناعي</title>
+    <!-- تم إضافة خط Cairo لجعل التصميم احترافياً ومريحاً للعين -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
+            --text-gray: #7f8c8d;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif; /* تغيير الخط لخط عربي احترافي */
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 15px 10% ;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover { color: var(--primary-color); }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 10%;
+            gap: 50px;
+            background: linear-gradient(135deg, #fff 0%, #eef2f3 100%);
+        }
+
+        .hero h1 { font-size: 2.8rem; margin-bottom: 20px; line-height: 1.2; }
+        .hero p { font-size: 1.1rem; margin-bottom: 30px; color: var(--text-gray); }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover { background-color: #2980b9; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(52,152,219,0.3); }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* قسم المقالات الجديدة */
+        .articles-section { padding: 80px 10%; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2rem; color: var(--secondary-color); }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .article-card h3 { color: var(--primary-color); margin-top: 0; }
+        .article-card p { color: var(--text-gray); font-size: 0.95rem; }
+
+        /* تواصل معنا */
+        .contact { padding: 80px 10%; background-color: var(--white); }
+        .contact-form { max-width: 600px; margin: 30px auto; display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Cairo'; }
+
+        footer { background-color: var(--secondary-color); color: var(--white); text-align: center; padding: 40px; margin-top: 50px; }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding: 40px 5%; }
+            nav ul { display: none; } /* يفضل إضافة قائمة جوال لاحقاً */
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">أكاديمية الذكاء</div>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="#articles">المقالات</a></li>
+                <li><a href="#contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="content">
+            <h1>مستقبل البرمجة والذكاء الاصطناعي بين يديك</h1>
+            <p>اكتشف أحدث التقنيات في عالم الأمن السيبراني والذكاء الاصطناعي من خلال محتوى تعليمي حصري ومبتكر.</p>
+            <a href="#articles" class="btn">تصفح المقالات الحصرية</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1772475385458-21163e41f4ba?q=80&w=699&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="500" height="400"alt="الذكاء الاصطناعي">
+        </div>
+    </section>
+
+    <section class="articles-section" id="articles">
+        <div class="section-title">
+            <h2>مقالات تعليمية حصرية</h2>
+            <p>محتوى فريد لمساعدتك في رحلتك التقنية</p>
+        </div>
+        
+        <div class="articles-grid">
+            <!-- المقال الأول -->
+            <div class="article-card">
+                <h3><i class="fas fa-map-signs"></i> خريطة الطريق لعام 2026</h3>
+                <p>البرمجة ليست مجرد كود، بل هي فن حل المشكلات. ابدأ بتعلم المنطق البرمجي قبل اختيار اللغة. ننصحك بالبدء بـ HTML لترى نتائج فورية، ثم انتقل لتعلم أسس الذكاء الاصطناعي.</p>
+            </div>
+
+            <!-- المقال الثاني -->
+            <div class="article-card">
+                <h3><i class="fas fa-robot"></i> ثورة الذكاء الاصطناعي</h3>
+                <p>كيف يغير AI مستقبل المبرمجين؟ المبرمج الناجح هو من يستخدم أدوات الذكاء الاصطناعي لتسريع عمله، مع التركيز على جودة الكود والأمن السيبراني لحماية البيانات.</p>
+            </div>
+
+            <!-- المقال الثالث -->
+            <div class="article-card">
+                <h3><i class="fas fa-shield-alt"></i> أساسيات الأمن السيبراني</h3>
+                <p>في عصرنا الحالي، حماية بياناتك هي الأولوية القصوى. تعلم كيف تبني تطبيقات آمنة وتتجنب الأخطاء الشائعة التي قد تؤدي لثغرات أمنية في مشاريعك البرمجية.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>هل لديك استفسار تقني؟</h2>
+        <p>فريقنا جاهز للرد على تساؤلاتك حول مسارك البرمجي</p>
+        <form action="https://formspree.io/f/xgopevba" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="الاسم الكامل" required>
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+            <textarea name="message" placeholder="كيف يمكننا مساعدتك في عالم البرمجة؟" rows="5" required></textarea>
+            <button type="submit" class="btn">إرسال الاستشارة</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 | قالب احترافي متعدد الاستخدامات</p>
+    </footer>
+
+</body>
+</html>
