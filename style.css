@@ -1,0 +1,452 @@
+/* ==========================================================================
+   لوحة التحكم الشاملة لـ CivixHub وتنسيقات الحاسبة والموقع المتكامل
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Tajawal:wght@400;500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+body {
+    background-image: url('https://plus.unsplash.com/premium_photo-1681989493328-0e5301879a4f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fGclQzMlQTluaWUlMjBjaXZpbHxlbnwwfHwwfHx8MA%3D%3D'); 
+    background-size: cover;
+    background-repeat: no-repeat;           
+    background-position: center;
+    background-attachment: fixed;
+    color: #1e293b;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    background: rgba(248, 250, 252, 0.92); 
+    backdrop-filter: blur(8px);
+}
+
+/* القائمة الجانبية (Sidebar) */
+.sidebar {
+    width: 280px;
+    background: #0f172a;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 15px;
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+/* تعديل الاتجاه لو كانت الصفحة بالإنجليزية (LTR) */
+html[dir="ltr"] .sidebar {
+    right: auto;
+    left: 0;
+    border-left: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo h2 {
+    font-size: 24px;
+    color: #4a6cf7;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.logo p {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 14px 16px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+html[dir="ltr"] .menu-btn {
+    text-align: left;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+.menu-btn.active {
+    background: #4a6cf7;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(74, 108, 247, 0.25);
+}
+
+.sidebar-footer {
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#langBtn {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+#langBtn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* المحتوى الرئيسي */
+.main-content {
+    flex-grow: 1;
+    margin-right: 280px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+html[dir="ltr"] .main-content {
+    margin-right: 0;
+    margin-left: 280px;
+}
+
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 4px;
+    background: #4a6cf7;
+    border-radius: 2px;
+}
+
+html[dir="ltr"] .page-title::after {
+    right: auto;
+    left: 0;
+}
+
+/* شبكة الكروت والتوزيع */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.converter-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 1024px) {
+    .grid, .converter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    border: 1px solid #e2e8f0;
+}
+
+.card h3 {
+    font-size: 18px;
+    color: #0f172a;
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+/* حقول الإدخال */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0f172a;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus, .input-group select:focus {
+    outline: none;
+    border-color: #4a6cf7;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
+}
+
+/* الأزرار */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#calcBtn, #calcSlabBtn, #calcMatBtn { background: linear-gradient(135deg, #4a6cf7, #3b5bdb); color: #ffffff; box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2); }
+#calcBtn:hover, #calcSlabBtn:hover, #calcMatBtn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(74, 108, 247, 0.3); }
+#pdfBtn { background: #10b981; color: #ffffff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+#pdfBtn:hover { background: #059669; }
+#saveBtn { background: #64748b; color: #ffffff; }
+#loadBtn { background: #e2e8f0; color: #334155; }
+
+/* تحسين كروت الرسم البياني لتصبح مساحات عرض هندسية احترافية */
+#beamCanvas, #sectionCanvas {
+    background: #0f172a; 
+    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.05);
+    margin-bottom: 20px;
+    border: 1px solid #1e293b;
+    transition: transform 0.2s ease;
+}
+
+#beamCanvas:hover, #sectionCanvas:hover {
+    transform: scale(1.01);
+}
+
+/* منطقة عرض النتائج */
+.results {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.results p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    color: #475569;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.results p:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.results p span:last-child {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* محول الوحدات والمقادير */
+.conv-val {
+    color: #4a6cf7 !important;
+    font-weight: 700 !important;
+}
+
+#code_check {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* تنسيقات صفحة الروائع الإنشائية الملونة */
+.wonders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.wonder-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.wonder-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-color);
+}
+
+.wonder-image {
+    height: 180px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+/* استخدام خلفيات ملونة متدرجة نائبة أو صور حقيقية */
+.bg-constantine {
+    background-image: url('https://images.unsplash.com/photo-1664403809653-b91d0b61ac55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8UG9udCUyMENvbnN0YW50aW58ZW58MHx8MHx8fDA%3D'); 
+}
+.bg-taipei {
+    background-image: url('https://media.istockphoto.com/id/529382765/fr/photo/la-circulation-dans-la-ville-de-taipei.webp?a=1&b=1&s=612x612&w=0&k=20&c=1_G5BcqbUklWkNa_e36luw_HKRun2n4vUroM8dhgcLs='); 
+}
+.bg-burj {
+    background-image: url('https://media.istockphoto.com/id/465905193/fr/photo/le-centre-ville-de-duba%C3%AF-au-cr%C3%A9puscule.webp?a=1&b=1&s=612x612&w=0&k=20&c=YnrHhwhpr-n6yU78ZMAE3-p-4rGcYCFBSaflR_9z_hs='); 
+
+}
+
+.wonder-image .tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    backdrop-filter: blur(4px);
+}
+
+.wonder-content {
+    padding: 20px;
+}
+
+.wonder-content h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.wonder-content p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* شريط إحصائي ملون وممتع */
+.stat-bar {
+    background: var(--border-color);
+    border-radius: 8px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-bar .fill {
+    background: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: width 1s ease-in-out;
+}
+.trivia-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+.trivia-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+.trivia-box h4 {
+    color: var(--text-main);
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+.trivia-box p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+
+
+
+
