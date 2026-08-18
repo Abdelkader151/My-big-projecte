@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CiviLHub - المنصة المتكاملة للهندسة المدنية</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>                                                                       
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>CiviLHub 🏗️</h2>
+            <p id="lbl_sub_logo">منصة المهندس المدني AOUADJ-AK</p>
+        </div>
+        <nav class="menu">
+            <button id="nav_beams" class="menu-btn active" onclick="switchPage('beams-page')">⚙️ حاسبة الروافد الاحترافية</button>
+            <button id="nav_slabs" class="menu-btn" onclick="switchPage('slabs-page')">📐 حاسبة البلاطات (Slabs)</button>
+            <button id="nav_materials" class="menu-btn" onclick="switchPage('materials-page')">📊 حاسبة كميات المواد</button>
+            <button id="nav_converter" class="menu-btn" onclick="switchPage('converter-page')">🔄 محول الوحدات والمراجع</button>
+            <button id="nav_wonders" class="menu-btn" onclick="switchPage('wonders-page')">🎓جناح البحوث الأكاديمية ومذكرات التخرج </button>
+            <button id="nav_autocad" class="menu-btn" onclick="switchPage('autocad-page')">📐 تفاصيل ومقاييس الأوتوكاد (AutoCAD)</button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="langBtn">FR</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section id="beams-page" class="page-section active">
+            <h1 id="title" class="page-title">حاسبة تصميم الروافد الخرسانية الاحترافية المتقدمة</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3 id="card_inputs">المدخلات الهندسية</h3>
+
+                    <div class="input-group">
+                        <label id="lbl_type">نوع الرافدة الإنشائي:</label>
+                        <select id="beamType">
+                            <option value="simple">بسيطة الاستناد (Simply Supported)</option>
+                            <option value="cantilever">ظفر / كابولي (Cantilever)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_code">الكود التصميمي المعتمد:</label>
+                        <select id="designCode">
+                            <option value="aci">ACI 318-19 (الأمريكي)</option>
+                            <option value="ec2">Eurocode 2 (الأوروبي)</option>
+                            <option value="cba93">CBA 93 (الجزائري الرسمي)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_rpa_zone">المنطقة الزلزالية (حسب RPA 99):</label>
+                        <select id="rpaZone">
+                            <option value="zone0">المنطقة 0: نشاط زلزالي ضئيل جداً</option>
+                            <option value="zone1">المنطقة I: نشاط زلزالي ضعيف</option>
+                            <option value="zone2a">المنطقة IIa: نشاط زلزالي متوسط</option>
+                            <option value="zone2b">المنطقة IIb: نشاط زلزالي متوسط مرتفع</option>
+                            <option value="zone3">المنطقة III: نشاط زلزالي مرتفع</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_bar_dia">قطر أسياخ التسليح الطولي المختَار (ملم):</label>
+                        <select id="barDiameter">
+                            <option value="10">Φ 10</option>
+                            <option value="12" selected>Φ 12</option>
+                            <option value="14">Φ 14</option>
+                            <option value="16">Φ 16</option>
+                            <option value="20">Φ 20</option>
+                            <option value="25">Φ 25</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_time">عمر التحميل الكلي (بالشهور):</label>
+                        <input type="number" id="time" value="12" step="1">
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_length">طول الرافدة الصافي L (متر):</label>
+                        <input type="number" id="length" value="5" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_w">الحمل الموزع المنتظم w (kN/m):</label>
+                        <input type="number" id="load_w" value="25" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_p">الحمل المركز المطبق P (kN):</label>
+                        <input type="number" id="load_p" value="20" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_a">موضع الحمل P عن المسند الأيسر a (متر):</label>
+                        <input type="number" id="distance_a" value="2.5" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <label id="lbl_h">الارتفاع الكلي للقطاع h (سم):</label>
+                        <input type="number" id="height" value="50" step="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label id="lbl_b">عرض القطاع الخرساني b (سم):</label>
+                        <input type="number" id="width" value="25" step="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label id="lbl_fc">مقاومة الخرسانة المميزة fc' (MPa):</label>
+                        <input type="number" id="fc" value="25" step="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label id="lbl_e">معامل مرونة الخرسانة E (GPa):</label>
+                        <input type="number" id="elasticity" value="30" step="0.1">
+                    </div> 
+
+                    <button id="calcBtn">حساب وتصميم المقطع</button>
+                    <button id="pdfBtn">تصدير تقرير حسابي هندسي (PDF)</button>
+                    <button id="saveBtn">حفظ التصميم الحالي</button>
+                    <button id="loadBtn">استعادة آخر تصميم</button>
+                </div>
+
+                <div class="card">
+                    <h3 id="card_results">النتائج ومخططات التحليل الإنشائي</h3>
+                    
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;" id="lbl_diagrams_title">مخططات العزم والقص الأساسية:</label>
+                    <canvas id="beamCanvas" width="600" height="200"></canvas>
+                    
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block; margin-top: 15px;" id="lbl_section_title">التفصيل الرسومي للمقطع العرضي (Cross-Section):</label>
+                    <canvas id="sectionCanvas" width="600" height="220"></canvas>
+                    
+                    <div class="results">
+                        <p><span id="lbl_r1">رد فعل المسند الأيسر R1:</span> <span><span id="r1">0</span> kN</span></p>
+                        <p><span id="lbl_r2">رد فعل المسند الأيمن R2:</span> <span><span id="r2">0</span> kN</span></p>
+                        <p><span id="lbl_mmax">العزم الأقصى التصميمي Mmax:</span> <span><span id="mmax">0</span> kN.m</span></p>
+                        <p><span id="lbl_vmax">قوة القص القصوى العظمى Vmax:</span> <span><span id="vmax">0</span> kN</span></p>
+                        
+                        <p><span id="lbl_as" style="font-weight: bold; color: #1e90ff;">مساحة تسليح الشد المطلوبة As:</span> <span><span id="as">0</span> cm²</span></p>
+                        <p><span id="lbl_bars_count">تفريد حديد الشد الرئيسي (السفلي):</span> <span style="font-weight: bold; color: #2ed573;" id="bars_detail">-</span></p>
+                        
+                        <p><span id="lbl_as_prime" style="font-weight: bold; color: #ff9f43;">تسليح الضغط / التعليق العلوى As':</span> <span><span id="as_prime">0</span> cm²</span></p>
+                        <p><span id="lbl_bars_prime_count">تفريد حديد التعليق / الضغط (العلوي):</span> <span style="font-weight: bold; color: #ff9f43;" id="bars_prime_detail">-</span></p>
+
+                        <p><span id="lbl_avs">التسليح العرضي المطلوب للقص Av/s:</span> <span><span id="av_s">0</span> cm²/m</span></p>
+                        <p><span id="lbl_shear">حالة الإجهاد والقص للمقطع:</span> <span id="shear_status">-</span></p>
+                        <p><span id="lbl_def">السهم اللحظي δmax:</span> <span><span id="deflection">0</span> mm</span></p>
+                        <p><span id="lbl_def_long">السهم الكلي طويل الأمد δlt:</span> <span><span id="deflection_lt">0</span> mm</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slabs-page" class="page-section">
+            <h1 id="slab_title" class="page-title">حاسبة تصميم البلاطات الخرسانية والأعصاب (Slabs Design)</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3 id="card_slab_inputs">مدخلات البلاطة الإنشائية</h3>
+                    <div class="input-group">
+                        <label id="lbl_slab_type">نوع السقف المقترح:</label>
+                        <select id="slabType">
+                            <option value="solid">بلاطة مصمتة مليئة (Dalle Pleine)</option>
+                            <option value="hourdi">سقف هوردي ذو عناصر مجوفة (Corps Creux)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label id="lbl_slab_length">أطول بحر أو مسافة بين الروافد L (متر):</label>
+                        <input type="number" id="slab_length" value="4.5" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label id="lbl_slab_q">الحمولة الحية المستغلة Q (kN/m²):</label>
+                        <input type="number" id="slab_load_q" value="2.5" step="0.1">
+                    </div>
+                    <button id="calcSlabBtn">تحليل وتصميم السقف</button>
+                </div>
+                <div class="card">
+                    <h3 id="card_slab_results">السمك الموصى به والتسليح المقترح لـ 1 متر</h3>
+                    <div class="results">
+                        <p><span id="lbl_res_thickness">السمك الكلي الآمن للبلاطة:</span> <span style="font-weight:bold; color:#4a6cf7;" id="res_slab_thickness">-</span></p>
+                        <p><span id="lbl_res_qu">الحمولة التصميمية الإجمالية القصوى qu:</span> <span><span id="res_slab_qu">0</span> kN/m²</span></p>
+                        <p><span id="lbl_res_slab_mmax">عزم الانحناء الأقصى المتولد:</span> <span><span id="res_slab_mmax">0</span> kN.m</span></p>
+                        <p><span id="lbl_res_steel">التوزيع المقترح للتسليح والتسليح الفرعي:</span> <span style="font-weight:bold; color:#10b981;" id="res_slab_steel">-</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="materials-page" class="page-section">
+            <h1 id="mat_title" class="page-title">حساب وتقدير كميات المواد الخرسانية بالموقع</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3 id="card_mat_inputs">حجم صب الخرسانة المستهدف والعيار المعياري</h3>
+                    <div class="input-group">
+                        <label id="lbl_mat_volume">الحجم الإجمالي المراد صبه بالمتر المكعب (m³):</label>
+                        <input type="number" id="mat_volume" value="12" step="0.5">
+                    </div>
+                    <div class="input-group">
+                        <label id="lbl_mat_dosage">جرعة الإسمنت المعتمدة للمتر المكعب (Dosage):</label>
+                        <select id="mat_dosage">
+                            <option value="350">350 كجم/م³ (العناصر الإنشائية الحاملة الأساسية لبناية)</option>
+                            <option value="400">400 كجم/م³ (الخرسانة الكثيفة المسلحة عالية الأداء)</option>
+                            <option value="150">150 كجم/م³ (خرسانة النظافة الأرضية Gros Béton)</option>
+                        </select>
+                    </div>
+                    <button id="calcMatBtn">تقدير كميات التوريد الفورية</button>
+                </div>
+                <div class="card">
+                    <h3 id="card_mat_results">بيان المواد والمكونات المطلوبة لطلب الشراء للموقع</h3>
+                    <div class="results">
+                        <p><span id="lbl_res_bags">عدد أكياس الإسمنت اللازمة (سعة 50 كجم):</span> <span style="color:#4a6cf7; font-weight:bold;"><span id="res_cement_bags">0</span> كيس</span></p>
+                        <p><span id="lbl_res_tons">الوزن الصافي الكلي للإسمنت:</span> <span><span id="res_cement_tons">0</span> طن</span></p>
+                        <p><span id="lbl_res_sand">حجم الرمل الكلي المطلوب لتوريده:</span> <span><span id="res_sand">0</span> m³</span></p>
+                        <p><span id="lbl_res_gravel">حجم الحصى الإجمالي المطلوب لتوريده:</span> <span><span id="res_gravel">0</span> m³</span></p>
+                        <p><span id="lbl_res_water">الكمية التقريبية لمياه خلط العجنة الخرسانية:</span> <span style="color:#1e90ff;"><span id="res_water">0</span> لتر</span></p>
+                    </div>
+                </div>
+            </div>
+
+<div style="margin-top: 30px; background: rgba(255,255,255,0.02); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color);">
+    <h3 id="h_devis_title" style="color: #10b981; font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">💰 حاسبة تكلفة المواد والكشف التقديري (Devis Estimatif - الجزائر)</h3>
+    <p id="p_devis_sub" style="color: #64748b; font-size: 13px; margin-bottom: 20px;">حساب التكلفة الإجمالية التقريبية للمواد واليد العاملة بالدينار الجزائري (DZD) بناءً على الكميات المحسوبة أعلاه.</p>
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 280px; background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 10px;">
+            <h4 id="h_market_prices" style="color: #f59e0b; font-size: 14px; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 5px;">🛒 أسعار السوق الافتراضية (يمكنك تعديلها) :</h4>
+            
+            <label id="lbl_pr_cement" style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 5px;">سعر كيس الإسمنت 50 كجم (DZD) :</label>
+            <input type="number" id="pr_cement" value="1000" oninput="calculateProjectDevis()" style="width:100%; padding:8px; background:#1e293b; border:1px solid #f59e0b; color:white; border-radius:6px; margin-bottom: 12px;">
+
+            <label id="lbl_pr_steel" style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 5px;">سعر قنطار الحديد (100 كجم) (DZD) :</label>
+            <input type="number" id="pr_steel" value="14500" oninput="calculateProjectDevis()" style="width:100%; padding:8px; background:#1e293b; border:1px solid #f59e0b; color:white; border-radius:6px; margin-bottom: 12px;">
+
+            <label id="lbl_pr_gravel" style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 5px;">سعر المتر المكعب حصى (Gravier) (DZD) :</label>
+            <input type="number" id="pr_gravel" value="3200" oninput="calculateProjectDevis()" style="width:100%; padding:8px; background:#1e293b; border:1px solid #f59e0b; color:white; border-radius:6px; margin-bottom: 12px;">
+
+            <label id="lbl_pr_sand" style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 5px;">سعر المتر المكعب رمل (Sable) (DZD) :</label>
+            <input type="number" id="pr_sand" value="3800" oninput="calculateProjectDevis()" style="width:100%; padding:8px; background:#1e293b; border:1px solid #f59e0b; color:white; border-radius:6px; margin-bottom: 12px;">
+
+            <label id="lbl_pr_labor" style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 5px;">مصاريف اليد العاملة (الماصو) لكل 1م³ خرسانة (DZD) :</label>
+            <input type="number" id="pr_labor" value="4500" oninput="calculateProjectDevis()" style="width:100%; padding:8px; background:#1e293b; border:1px solid #f59e0b; color:white; border-radius:6px;">
+        </div>
+
+        <div style="flex: 1; min-width: 280px; background: #0f172a; border: 1px solid #10b981; padding: 20px; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h4 id="h_devis_res" style="color: #10b981; font-size: 14px; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 5px;">📊 الكشف المالي التقديري (Devis Final) :</h4>
+                <p style="width:100%; padding:8px; background:#1e293b; border:1px solid #10b981; color:white; border-radius:6px;color: #10b981; font-size: 15px; margin-bottom: 8px;" ><span id="res_cost_cement">تكلفة الإسمنت الإجمالية:</span> <b id="out_cost_cement" style="color: white;">0.00 DA</b></p>
+                <p style="width:100%; padding:8px; background:#1e293b; border:1px solid #10b981; color:white; border-radius:6px; color: #10b981; font-size: 15px; margin-bottom: 8px;"><span id="res_cost_steel">تكلفة الحديد الإجمالية:</span> <b id="out_cost_steel" style="color: white;">0.00 DA</b></p>
+                <p style="width:100%; padding:8px; background:#1e293b; border:1px solid #10b981; color:white; border-radius:6px; color: #10b981; font-size: 15px; margin-bottom: 8px;"><span id="res_cost_aggregates">تكلفة الرمل والحصى:</span> <b id="out_cost_aggregates" style="color: white;">0.00 DA</b></p>
+                <p style="width:100%; padding:8px; background:#1e293b; border:1px solid #10b981; color:white; border-radius:6px; color: #10b981; font-size: 15px; margin-bottom: 15px;"><span id="res_cost_labor">تكلفة مصاريف اليد العاملة:</span> <b id="out_cost_labor" style="color: white;">0.00 DA</b></p>
+            </div>
+            
+            <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 8px; text-align: center; border: 1px dashed #10b981;">
+                <span id="res_total_cost" style="color: #10b981; font-size: 13px; display: block; margin-bottom: 5px;">المبلغ الإجمالي التقريبي للمشروع (Total HT):</span>
+                <h2 id="out_total_cost" style="color: #10b981; font-size: 24px; font-weight: bold;">0.00 DA</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            <h1 id="h_sec_title" class="page-title">حاسبة الأشكال الهندسية والخواص الميكانيكية (Section Properties Calculator)📐</h1>
+            <div style="margin-top: 30px; background: rgba(255,255,255,0.02); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color);">
+    <h3 id="p_sec_sub" style="color: #f59e0b; font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">حساب مساحة القطاعات، عزم العطالة (Inertie)، ونصف قطر العطالة للأشكال الهندسية الإنشائية النموذجية.</h3>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 280px;">
+            <label id="lbl_sec_shape" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">اختر شكل القطاع الإنشائي :</label>
+            <select id="sec_shape" onchange="toggleSectionFields(); calculateSectionProperties();" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <option value="rect" id="opt_appa1" selected>1. قطاع مستطيل </option>
+                <option value="circle" id="opt_appa2">2. قطاع دائري </option>
+                <option value="box" id="opt_appa3">3. قطاع صندوقي مجوف </option>
+                <option value="pipe" id="opt_appa4">4. قطاع أنبوبي مجوف </option>
+                <option value="triangle" id="opt_appa5">5. قطاع مثلث </option>
+            </select>
+
+            <div id="fields_rect">
+                <label id="lbl_sec_b" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">العرض b (متر) :</label>
+                <input type="number" id="sec_b" value="0.30" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_sec_h" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">الارتفاع h (متر) :</label>
+                <input type="number" id="sec_h" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+            </div>
+
+            <div id="fields_circle" style="display: none;">
+                <label id="lbl_sec_d" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">القطر D (متر) :</label>
+                <input type="number" id="sec_d" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+            </div>
+
+            <div id="fields_box" style="display: none;">
+                <label id="lbl_box_B" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">العرض الخارجي B (متر) :</label>
+                <input type="number" id="box_B" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_box_H" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">الارتفاع الخارجي H (متر) :</label>
+                <input type="number" id="box_H" value="0.50" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_box_b_in" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">العرض الفراغي الداخلي b (متر) :</label>
+                <input type="number" id="box_b_in" value="0.30" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_box_h_in" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">الارتفاع الفراغي الداخلي h (متر) :</label>
+                <input type="number" id="box_h_in" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+            </div>
+
+            <div id="fields_pipe" style="display: none;">
+                <label id="lbl_pipe_D" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">القطر الخارجي D (متر) :</label>
+                <input type="number" id="pipe_D" value="0.50" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_pipe_d_in" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">القطر الداخلي الفارغ d (متر) :</label>
+                <input type="number" id="pipe_d_in" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+            </div>
+
+            <div id="fields_triangle" style="display: none;">
+                <label id="lbl_tri_b" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">قاعدة المثلث b (متر) :</label>
+                <input type="number" id="tri_b" value="0.30" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <label id="lbl_tri_h" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">ارتفاع المثلث h (متر) :</label>
+                <input type="number" id="tri_h" value="0.40" step="0.05" oninput="calculateSectionProperties()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 280px; background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 10px; display: flex; flex-direction: column; justify-content: center;">
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;"><span id="res_sec_area">مساحة المقطع الفعالة (A):</span> <b id="out_sec_area" style="color: #10b981; font-size: 15px;">0.1200 ²م</b></p>
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;"><span id="res_sec_ix">عزم العطالة حول المحور X (Ix):</span> <b id="out_sec_ix" style="color: #3b82f6; font-size: 15px;">0.00160 ⁴م</b></p>
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;"><span id="res_sec_iy">عزم العطالة حول المحور Y (Iy):</span> <b id="out_sec_iy" style="color: #3b82f6; font-size: 15px;">0.00090 ⁴م</b></p>
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;"><span id="res_sec_ix_rad">نصف قطر العطالة (ix):</span> <b id="out_sec_ix_rad" style="color: #a855f7; font-size: 15px;">0.115 م</b></p>
+            <p style="color: #64748b; font-size: 13px;"><span id="res_sec_iy_rad">نصف قطر العطالة (iy):</span> <b id="out_sec_iy_rad" style="color: #a855f7; font-size: 15px;">0.087 م</b></p>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <section id="converter-page" class="page-section">
+            <h1 id="conv_title" class="page-title">محول الوحدات الهندسي المتكامل والمراجع اللائحية</h1>
+            <div class="grid converter-grid">
+                
+                <div class="card">
+                    <h3 id="card_conv_stress">1. تحويل الإجهادات والمقاومة (Stress & Pressure)</h3>
+                    <div class="input-group">
+                        <label id="lbl_conv_mpa">القيمة بوحدة الـ MegaPascal (MPa):</label>
+                        <input type="number" id="val_mpa" value="25" oninput="convertAllUnits()">
+                    </div>
+                    <div class="results">
+                        <p><span id="lbl_res_bar">بوحدة الـ Bar:</span> <span id="res_bar" class="conv-val">250</span></p>
+                        <p><span id="lbl_res_kgcm">بوحدة (kg/cm²):</span> <span id="res_kgcm" class="conv-val">254.9</span></p>
+                        <p><span id="lbl_res_psi">بوحدة الرطل/بوصة² (Psi):</span> <span id="res_psi" class="conv-val">3625.9</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 id="card_conv_length">2. تحويل الأطوال والبحور (Lengths)</h3>
+                    <div class="input-group">
+                        <label id="lbl_conv_meters">القيمة بوحدة المتر (m):</label>
+                        <input type="number" id="val_meters" value="5" oninput="convertAllUnits()">
+                    </div>
+                    <div class="results">
+                        <p><span id="lbl_res_cm">بالسنتيمتر (cm):</span> <span id="res_cm" class="conv-val">500</span></p>
+                        <p><span id="lbl_res_mm">بالمليمتر (mm):</span> <span id="res_mm" class="conv-val">5000</span></p>
+                        <p><span id="lbl_res_inch">بالبوصة / إنش (Inch):</span> <span id="res_inch" class="conv-val">196.85</span></p>
+                        <p><span id="lbl_res_feet">بالقدم (Feet):</span> <span id="res_feet" class="conv-val">16.40</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 id="card_conv_weight">3. تحويل الأوزان وتوريد الحديد (Weights)</h3>
+                    <div class="input-group">
+                        <label id="lbl_conv_tons">القيمة بوحدة الطن الإنشائي (Ton):</label>
+                        <input type="number" id="val_tons" value="1" oninput="convertAllUnits()">
+                    </div>
+                    <div class="results">
+                        <p><span id="lbl_res_kg">بالكيلوجرام (kg):</span> <span id="res_kg" class="conv-val">1000</span></p>
+                        <p><span id="lbl_res_lb">بالرطل (Pound - lb):</span> <span id="res_lb" class="conv-val">2204.6</span></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 id="card_conv_moment">4. تحويل عزوم الانحناء (Bending Moments)</h3>
+                    <div class="input-group">
+                        <label id="lbl_conv_knm">القيمة بوحدة الـ (kN.m):</label>
+                        <input type="number" id="val_knm" value="50" oninput="convertAllUnits()">
+                    </div>
+                    <div class="results">
+                        <p><span id="lbl_res_nmm">بوحدة الـ (N.mm):</span> <span id="res_nmm" class="conv-val">50000000</span></p>
+                        <p><span id="lbl_res_kgm">بوحدة الـ (kg.m):</span> <span id="res_kgm" class="conv-val">5098.58</span></p>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: span 2;">
+                    <h3 id="card_references">المراجع والأكواد الهندسية الرسمية واللوائح</h3>
+                    <div class="results">
+                        <p>📄 <b id="ref_cba">CBA 93:</b> <span id="lbl_ref_cba">اللوائح والقواعد الجزائرية الرسمية لحساب وتصميم المنشآت والخرسانة المسلحة.</span></p>
+                        <p>📄 <b id="ref_rpa">RPA 99 / V2003:</b> <span id="lbl_ref_rpa">القواعد والتشريعات الجزائرية المعتمدة للأبنية المقاومة للزلازل والتحقق الإنشائي.</span></p>
+                        <p>📄 <b>ACI 318-19:</b> <span id="lbl_ref_aci">كود المعهد الأمريكي للخرسانة لتصميم المنشآت والهياكل.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    <section id="wonders-page" class="page-section">
+    <h1 id="wonders_title">🎓جناح البحوث الأكاديمية ومذكرات التخرج </h1>
+    <p id="wonders_sub" style="margin-bottom: 25px; color: #64748b; font-size: 14px;">أدوات متطورة لحساب المنشآت والتحقق الإنشائي وفق المعايير واللوائح الجزائرية الرسمية.</p>
+    
+    <div class="academic-tabs" style="display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #1e293b; padding-bottom: 10px;">
+        <button id="tab_rpa" class="sim-btn" onclick="switchAcademicTab('rpa')" style="background: #3b82f6; color: white;">📈 طيف الاستجابة الزلزالي (RPA99)</button>
+        <button id="tab_cba" class="sim-btn" onclick="switchAcademicTab('cba')" style="background: #1e293b; color: #64748b;">📐 انبعاج الأعمدة (CBA93)</button>
+    </div>
+
+    <div id="panel_rpa" class="academic-panel">
+        <div class="rpa-inputs-wrapper" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
+            
+            <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                <label id="lbl_rpa_zone1" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">المنطقة الزلزالية</label>
+                <select id="academic_zone" onchange="calculateRPASpectrum()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px;">
+                    <option value="0.15" id="opt_zone1">المنطقة 1 (نشاط ضعيف)</option>
+                    <option value="0.25" id="opt_zone2" selected>المنطقة 2 (نشاط متوسط)</option>
+                    <option value="0.30" id="opt_zone3">المنطقة 3 (نشاط متوسط مرتفع)</option>
+                    <option value="0.40" id="opt_zone4">المنطقة 4 (نشاط مرتفع)</option>
+                </select>
+
+                <label id="lbl_rpa_soil" style="color: var(--text-main); font-size: 13px; margin-top:15px; display:block; margin-bottom: 5px;">نوع التربة (Site):</label>
+                <select id="academic_soil" onchange="calculateRPASpectrum()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px;">
+                    <option value="0.3" id="opt_site1">S1 (صخرية صلبة Roc) T2=0.3s</option>
+                    <option value="0.4" id="opt_site2" selected>S2 (ثابتة Ferme) T2=0.4s</option>
+                    <option value="0.5" id="opt_site3">S3 (ليّنة Meuble) T2=0.5s</option>
+                    <option value="0.7" id="opt_site4">S4 (ليّنة جداً Très meuble) T2=0.7s</option>
+                </select>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                <label id="lbl_rpa_r" style="color: var(--text-main); font-size: 13px; display: block; margin-bottom: 5px;">معامل السلوك الهيكلي (R):</label>
+                <input type="number" id="academic_R" value="5" step="0.5" oninput="calculateRPASpectrum()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px;">
+                
+                <label id="lbl_rpa_q" style="color: var(--text-main); font-size: 13px; margin-top:15px; display:block; margin-bottom: 5px;">معامل الجودة (Q):</label>
+                <input type="number" id="academic_Q" value="1.2" step="0.05" oninput="calculateRPASpectrum()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px;">
+            </div>
+
+        </div>
+        
+        <div class="canvas-container" style="background:#0f172a; border-radius:12px; border:1px solid #1e293b; padding: 10px;">
+            <canvas id="rpaCanvas" width="800" height="350" style="display: block; width:100%; height:auto;"></canvas>
+        </div>
+    </div>
+
+    <div id="panel_cba" class="academic-panel" style="display: none;">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            
+            <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                <h3 id="h_cba_dim" style="font-size:14px; margin-bottom:15px; color:var(--text-main);">أبعاد العمود والأطوال</h3>
+                
+                <label id="lbl_cba_b" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">عرض العمود b (متر):</label>
+                <input type="number" id="cba_b" value="0.30" step="0.05" oninput="calculateFlambement()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                
+                <label id="lbl_cba_h" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">عمق العمود h (متر):</label>
+                <input type="number" id="cba_h" value="0.30" step="0.05" oninput="calculateFlambement()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+
+                <label id="lbl_cba_lo" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">الطول الحر للعمود L0 (متر):</label>
+                <input type="number" id="cba_lo" value="3.2" step="0.1" oninput="calculateFlambement()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px;">
+            </div>
+
+            <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                <h3 id="h_cba_cond" style="font-size:14px; margin-bottom:15px; color:var(--text-main);">شروط التثبيت والمقاومة</h3>
+                <label id="lbl_cba_type" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">نوع التثبيت والاستناد (Fixation):</label>
+                <select id="cba_fix" onchange="calculateFlambement()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                    <option value="0.7" id="opt_fix1">ممسوك من الطرفين بجسامة (lf = 0.7 L0)</option>
+                    <option value="1.0" id="opt_fix2" selected>مفصلي طابق نموذجي بناية (lf = 1.0 L0)</option>
+                    <option value="2.0" id="opt_fix3">عمود كابولي حر من الأعلى (lf = 2.0 L0)</option>
+                </select>
+
+                <div class="results" style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:8px;">
+                    <p style="color:#ffffff; font-size:13px;"><span id="res_cba_lf">الطول الفعال Lf:</span> <b id="out_lf" style="color:#3b82f6;">2.24 م</b></p>
+                    <p style="color:#ffffff; font-size:13px; margin-top:8px;"><span id="res_cba_lambda">درجة النحافة (Élancement λ):</span> <b id="out_lambda" style="color:#f59e0b;">25.86</b></p>
+                    <p style="color:#ffffff; font-size:13px; margin-top:8px;"><span id="res_cba_alpha">معامل الخفض الخرساني (α):</span> <b id="out_alpha" style="color:#10b981;">0.803</b></p>
+                    <p id="out_status" style="font-weight:bold; margin-top:12px; font-size:12px; color:#34d399;">✅ العمود آمن ضد الانبعاج المباشر (λ < 50)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="autocad-page" class="page-section">
+    <h1 id="cad_title">جناح المخططات والتفاصيل الهندسية (AutoCAD) 📐</h1>
+    <p id="cad_sub" style="margin-bottom: 25px; color: #64748b; font-size: 14px;">مكتبة تفاعلية لتحميل تفاصيل التسليح الجاهزة وحاسبة ذكية لضبط مقاييس الرسم من الأوتوكاد إلى الواقع.</p>
+
+    <div style="display: flex; gap: 25px; flex-wrap: wrap;">
+        
+        <div style="flex: 1; min-width: 320px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content;">
+            <h3 id="h_cad_calc" style="font-size:15px; margin-bottom:15px; color:#3b82f6;">🔄 محول مقاييس الرسم (AutoCAD to Reality)</h3>
+            
+            <label id="lbl_cad_scale" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">اختر مقياس رسم اللوحة (Échelle) :</label>
+            <select id="cad_scale" onchange="convertCadScale()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+                <option value="50" id="opt_ech1">1/50 (1cm في اللوحة = 0.5m في الواقع)</option>
+                <option value="100" id="opt_ech2" selected>1/100 (1cm في اللوحة = 1.0m في الواقع)</option>
+                <option value="20" id="opt_ech3">1/20 (1cm في اللوحة = 0.2m في الواقع)</option>
+                <option value="25" id="opt_ech4">1/25 (1cm في اللوحة = 0.25m في الواقع)</option>
+                <option value="200" id="opt_ech5">1/200 (1cm في اللوحة = 2.0m في الواقع)</option>
+            </select>
+
+            <label id="lbl_cad_measured" style="color: var(--text-main); font-size:13px; display:block; margin-bottom:5px;">المسافة المقاسة بالمسطرة على الورقة المطبوعة (cm) :</label>
+            <input type="number" id="cad_measured" value="5" step="0.5" oninput="convertCadScale()" style="width:100%; padding:10px; background:#0f172a; border:1px solid #1e293b; color:white; border-radius:8px; margin-bottom: 15px;">
+
+            <div class="results" style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:8px;">
+                <p style="color:#ffffff; font-size:14px;"><span id="res_cad_real">المسافة الحقيقية في الموقع (الواقع):</span> <b id="out_cad_real" style="color:#10b981;">5.00 متر</b></p>
+            </div>
+        </div>
+
+        <div style="flex: 2; min-width: 350px;">
+            <h3 id="h_cad_lib" style="font-size:15px; margin-bottom:15px; color:#f59e0b;">📂 مكتبة تفاصيل التسليح القياسية (دليلك في الـ PFE)</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px;">
+                
+                <div style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:10px; text-align: center;">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🏢</div>
+                    <h4 id="card_cad_poteau" style="color:white; font-size:14px; margin-bottom:8px;">تفاصيل تسليح الأعمدة (Ferraillage Poteaux)</h4>
+                    <p style="color:#64748b; font-size:11px; margin-bottom:12px;">RPA99/CBA93 Standard Details</p>
+                    <a href="downloads/ferraillage_poteaux.dwg" download class="sim-btn" style="background:#3b82f6; color:white; text-decoration:none; display:inline-block; padding:6px 12px; font-size:12px; border-radius:6px;">📥 Download DWG</a>
+                </div>
+
+                <div style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:10px; text-align: center;">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🪵</div>
+                    <h4 id="card_cad_poutre" style="color:white; font-size:14px; margin-bottom:8px;">تسليح عوارض الخرسانة (Ferraillage Poutres)</h4>
+                    <p style="color:#64748b; font-size:11px; margin-bottom:12px;">Ancrages & Recouvrements</p>
+                    <a href="downloads/ferraillage_poutres.dwg" download class="sim-btn" style="background:#3b82f6; color:white; text-decoration:none; display:inline-block; padding:6px 12px; font-size:12px; border-radius:6px;">📥 Download DWG</a>
+                </div>
+
+                <div style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:10px; text-align: center;">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🧱</div>
+                    <h4 id="card_cad_semelle" style="color:white; font-size:14px; margin-bottom:8px;">تفاصيل الأساسات المنفصلة (Semelles)</h4>
+                    <p style="color:#64748b; font-size:11px; margin-bottom:12px;">Détails d'amorces poteaux</p>
+                    <a href="downloads/details_semelles.dwg" download class="sim-btn" style="background:#3b82f6; color:white; text-decoration:none; display:inline-block; padding:6px 12px; font-size:12px; border-radius:6px;">📥 Download DWG</a>
+                </div>
+
+                <div style="background:#0f172a; border:1px solid #1e293b; padding:15px; border-radius:10px; text-align: center;">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🪜</div>
+                    <h4 id="card_cad_escalier" style="color:white; font-size:14px; margin-bottom:8px;">مخططات تسليح السلالم (Escaliers)</h4>
+                    <p style="color:#64748b; font-size:11px; margin-bottom:12px;">Escalier à paillasse adossée</p>
+                    <a href="downloads/ferraillage_escaliers.dwg" download class="sim-btn" style="background:#3b82f6; color:white; text-decoration:none; display:inline-block; padding:6px 12px; font-size:12px; border-radius:6px;">📥 Download DWG</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
